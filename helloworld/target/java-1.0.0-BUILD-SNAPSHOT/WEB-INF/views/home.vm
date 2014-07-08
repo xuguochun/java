@@ -1,0 +1,48 @@
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script type="text/javascript" src="resources/scripts/jquery-1.7.1.min.js"></script>
+        <title>home vm</title>
+		<script   type="text/javascript">
+		   var serverList=new Array("abc","ddd");
+		   
+        </script>
+	</head>
+	<body >
+        <from  mothed="POST" action="">
+			<input  type="hidden" value="1" name="gameId"/>
+		</from>
+		 游戏选择:
+		<label for="games">游戏：</label>
+<select id="games">	
+	<option value="-1">请选择游戏</option>
+#foreach($item in $gameList)	
+		<option value="$item.Code">$item.Name</option>
+#end
+</select>
+<label for="games">区服：</label>
+<select id="servers">
+	<option value="-1" >请选择区服</option>
+</select>
+<script type="text/javascript">
+	jQuery(function(){
+		$("#games").on("change",function(){
+			jQuery.ajax({
+				url:"getServerList",
+				type:"get",
+				dataType: "json",
+				data:{gameId:$(this).val()},
+				success:function(data){
+					var html='';
+					html+='<option value="-1">请选择区服</option>'
+					for(var o in data){
+						html+='<option value="'+data[o]["code"]+'">'+data[o]["name"]+'</option>'
+					}
+					$("#servers").empty().html(html);
+				}			
+			})
+		});
+	});
+</script>
+    </body>
+</html>
